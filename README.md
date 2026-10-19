@@ -14,13 +14,14 @@ A modern, full-featured multi-vendor e-commerce platform built with **Laravel**,
 <br/>
 
 <p align="center">
-  <img src="docs/images/projectimage.png" width="48%" alt="Storefront Home Page" />
-  <img src="docs/images/product-details.png" width="48%" alt="Product Details Page" />
+  <img src="docs/images/hme.jpeg" width="100%" alt="Storefront Home Page" />
+  <img src="docs/images/projectimage.jpeg" width="100%" alt="Storefront Home Page" />
+  <img src="docs/images/product-details.jpeg" width="100%" alt="Product Details Page" />
 </p>
 
 <p align="center">
-  <img src="docs/images/cart.png" width="48%" alt="Shopping Cart Page" />
-  <img src="docs/images/checkout.png" width="48%" alt="Checkout Page" />
+  <img src="docs/images/cart.png" width="100%" alt="Shopping Cart Page" />
+  <img src="docs/images/checkout.png" width="100%" alt="Checkout Page" />
 </p>
 
 </details>
