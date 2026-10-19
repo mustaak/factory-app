@@ -184,10 +184,10 @@
 
                                 <div class="mt-auto flex items-baseline gap-2 pt-3">
                                     @if ($price !== null)
-                                        <span class="text-sm font-semibold text-slate-950">₹{{ number_format((float) $price, 2) }}</span>
+                                        <span class="text-sm font-semibold text-slate-950">${{ number_format((float) $price, 2) }}</span>
                                     @endif
                                     @if ($discount)
-                                        <span class="text-xs text-slate-400 line-through">₹{{ number_format((float) $compare, 2) }}</span>
+                                        <span class="text-xs text-slate-400 line-through">${{ number_format((float) $compare, 2) }}</span>
                                     @endif
                                 </div>
                             </div>

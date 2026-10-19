@@ -43,40 +43,67 @@ class ProductDetails extends Component
             ?? $this->variants->first();
     }
 
-    public function selectColor(string $color): void
-    {
-        $candidates = $this->variants->where('color', $color);
-
-        if ($candidates->isEmpty()) {
-            return;
-        }
-
-        // Pehle wahi size, na mile to us color ka koi bhi available variant
-        $match = $candidates->firstWhere('size', $this->selectedVariant?->size) ?? $candidates->first();
-
-        $this->chooseVariant($match);
-    }
-
     public function selectSize(string $size): void
     {
-        $candidates = $this->variants->where('size', $size);
+        $this->pickVariantBy('size', $size);
+    }
+
+    public function selectColor(string $color): void
+    {
+        $this->pickVariantBy('color', $color);
+    }
+
+    private function pickVariantBy(string $field, string $value): void
+    {
+        $target = strtolower(trim($value));
+        $current = $this->selectedVariant;
+
+        // Dusra attribute current selection se match karna chahiye
+        $other = $field === 'color' ? 'size' : 'color';
+        $currentOther = strtolower((string) $current?->{$other});
+
+        $candidates = $this->variants->filter(
+            fn ($v) => strtolower((string) $v->{$field}) === $target
+        );
 
         if ($candidates->isEmpty()) {
             return;
         }
 
-        // Pehle wahi color, na mile to us size ka koi bhi available variant
-        $match = $candidates->firstWhere('color', $this->selectedVariant?->color) ?? $candidates->first();
+        $match = $candidates->first(
+            fn ($v) => strtolower((string) $v->{$other}) === $currentOther
+        ) ?? $candidates->first();
 
-        $this->chooseVariant($match);
+        if ($match->id === $this->selectedVariantId) {
+            return;
+        }
+
+        $this->selectedVariantId = $match->id;
+
+        $this->quantity = min(
+            $this->quantity,
+            max(1, $match->stock_quantity)
+        );
+
+        unset($this->selectedVariant);
+
+        $imagePath = $match->image_path
+            ?: $this->product->primaryImage?->image_path
+            ?: $this->product->images->first()?->image_path;
+
+        $imageUrl = $imagePath
+            ? \Illuminate\Support\Facades\Storage::url($imagePath)
+            : null;
+
+        $this->dispatch('variant-image-updated', url: $imageUrl);
     }
 
-    private function chooseVariant(ProductVariant $variant): void
-    {
-        $this->selectedVariantId = $variant->id;
-        $this->quantity = max(1, min($this->quantity, $variant->stock_quantity));
-        $this->resetErrorBag('cart');
-    }
+    // private function chooseVariant(ProductVariant $variant): void
+    // {
+    //     $this->selectedVariantId = $variant->id;
+    //     $this->quantity = max(1, min($this->quantity, $variant->stock_quantity));
+    //     $this->resetErrorBag('cart');
+    // }
 
     public function increaseQuantity(): void
     {
@@ -89,9 +116,24 @@ class ProductDetails extends Component
         $this->quantity = max(1, $this->quantity - 1);
     }
 
+    
     public function addToCart(CartService $cartService): void
     {
         $variant = $this->selectedVariant;
+
+        // dd([
+        //     'product_id' => $this->product->id,
+        //     'selected_variant_id' => $this->selectedVariantId,
+        //     'variants_for_current_product' => $this->variants
+        //         ->map(fn ($variant) => [
+        //             'id' => $variant->id,
+        //             'product_id' => $variant->product_id,
+        //             'sku' => $variant->sku,
+        //             'is_active' => $variant->is_active,
+        //         ])
+        //         ->toArray(),
+        //     'selected_variant' => $variant?->toArray(),
+        // ]);
 
         if (! $variant) {
             $this->addError('cart', 'This product is currently unavailable.');
@@ -100,15 +142,36 @@ class ProductDetails extends Component
         }
 
         try {
-            $cartService->add($variant->id, $this->quantity);
+            $cartService->add(
+                $this->product,
+                $variant->id,
+                $this->quantity
+            );
+
+            $cartQty = collect(session('factory_cart', []))
+                ->sum('quantity');
+
+            $this->dispatch('cart-updated', count: $cartQty);
+
+            $this->dispatch(
+                'cart-message',
+                message: $this->product->name . ' added to your cart.'
+            );
         } catch (ValidationException $exception) {
-            $this->addError('cart', $exception->errors()['cart'][0] ?? 'Unable to add to cart.');
+            $this->addError(
+                'cart',
+                $exception->errors()['cart'][0] ?? 'Unable to add to cart.'
+            );
 
             return;
         }
 
-        $this->dispatch('cart-message', message: $this->product->name . ' added to your cart.');
+        $this->dispatch(
+            'cart-message',
+            message: $this->product->name . ' added to your cart.'
+        );
     }
+
 
     public function render()
     {

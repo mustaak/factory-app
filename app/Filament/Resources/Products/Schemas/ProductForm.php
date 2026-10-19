@@ -110,12 +110,13 @@ class ProductForm
                                 ->required(),
 
                             FileUpload::make('image_path')
-                                ->label('Variant Image')
-                                ->image()
-                                ->disk('public')
-                                ->directory('products/variants')
-                                ->visibility('public')
-                                ->imagePreviewHeight('80'),
+                            ->label('Variant Image')
+                            ->image()
+                            ->disk('public')
+                            ->directory('products/variants')
+                            ->visibility('public')
+                            ->maxSize(2048)
+                            ->imagePreviewHeight('80'),
 
                             Toggle::make('is_active')
                                 ->default(true),
@@ -145,12 +146,13 @@ class ProductForm
                         ->relationship()
                         ->schema([
                             FileUpload::make('image_path')
-                                ->label('Product Image')
-                                ->image()
-                                ->disk('public')
-                                ->directory('products')
-                                ->visibility('public')
-                                ->required(),
+                            ->label('Product Image')
+                            ->image()
+                            ->disk('public')
+                            ->directory('products')
+                            ->visibility('public')
+                            ->maxSize(2048)
+                            ->required(),
 
                             TextInput::make('sort_order')
                                 ->numeric()

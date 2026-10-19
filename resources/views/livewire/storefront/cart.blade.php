@@ -102,7 +102,7 @@
                                 @endif
 
                                 <p class="mt-2 text-lg font-bold text-red-600">
-                                    ₹{{ number_format($item['price'], 2) }}
+                                    ${{ number_format($item['price'], 2) }}
                                 </p>
 
                                 @if ($item['quantity'] > $item['stock_quantity'])
@@ -140,7 +140,7 @@
 
                                 <div class="text-right">
                                     <p class="font-bold text-[var(--theme-text,#111827)]">
-                                        ₹{{ number_format($item['line_total'], 2) }}
+                                        ${{ number_format($item['line_total'], 2) }}
                                     </p>
 
                                     <button type="button"
@@ -166,7 +166,7 @@
                             Subtotal ({{ $cartCount }} items)
                         </span>
                         <span class="font-semibold text-[var(--theme-text,#111827)]">
-                            ₹{{ number_format($subtotal, 2) }}
+                            ${{ number_format($subtotal, 2) }}
                         </span>
                     </div>
 
@@ -176,7 +176,7 @@
                             Total
                         </span>
                         <span class="text-xl font-bold text-red-600">
-                            ₹{{ number_format($subtotal, 2) }}
+                            ${{ number_format($subtotal, 2) }}
                         </span>
                     </div>
 

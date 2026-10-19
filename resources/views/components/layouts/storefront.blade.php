@@ -110,13 +110,29 @@
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
                 </a>
 
-                <a href="{{ route('cart') }}" aria-label="Cart"
-                   class="cursor-pointer relative inline-flex h-10 w-10 items-center justify-center text-slate-700 transition hover:text-red-600">
-                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
-                    @php $cartQty = collect(session('factory_cart', []))->sum('quantity'); @endphp
-                    @if ($cartQty > 0)
-                        <span class="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-[11px] font-bold text-white">{{ $cartQty }}</span>
-                    @endif
+                <a href="{{ route('cart') }}"
+                aria-label="Cart"
+                x-data="{ cartQty: {{ (int) collect(session('factory_cart', []))->sum('quantity') }} }"
+                x-on:cart-updated.window="cartQty = Number($event.detail.count ?? 0)"
+                class="cursor-pointer relative inline-flex h-10 w-10 items-center justify-center text-slate-700 transition hover:text-red-600">
+
+                    <svg class="h-5 w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 8H6"/>
+                        <circle cx="10" cy="21" r="1"/>
+                        <circle cx="18" cy="21" r="1"/>
+                    </svg>
+
+                    <span x-cloak
+                        x-show="cartQty > 0"
+                        x-text="cartQty"
+                        class="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-[11px] font-bold text-white">
+                    </span>
                 </a>
             </div>
         </div>

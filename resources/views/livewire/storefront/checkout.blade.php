@@ -174,7 +174,7 @@
                                     Qty {{ $item['quantity'] }}
                                 </p>
                             </div>
-                            <p class="shrink-0 font-semibold text-slate-900">₹{{ number_format($item['line_total'], 2) }}</p>
+                            <p class="shrink-0 font-semibold text-slate-900">${{ number_format($item['line_total'], 2) }}</p>
                         </li>
                     @endforeach
                 </ul>
@@ -182,7 +182,7 @@
                 <div class="mt-4 space-y-2 border-t border-slate-200 pt-4 text-sm">
                     <div class="flex justify-between text-slate-600">
                         <span>Subtotal ({{ $cartCount }} {{ $cartCount === 1 ? 'item' : 'items' }})</span>
-                        <span>₹{{ number_format($subtotal, 2) }}</span>
+                        <span>${{ number_format($subtotal, 2) }}</span>
                     </div>
                     <div class="flex justify-between text-slate-600">
                         <span>Shipping</span>
@@ -192,7 +192,7 @@
 
                 <div class="mt-4 flex justify-between border-t border-slate-200 pt-4">
                     <span class="font-semibold text-slate-900">Total</span>
-                    <span class="text-lg font-bold text-slate-950">₹{{ number_format($subtotal, 2) }}</span>
+                    <span class="text-lg font-bold text-slate-950">${{ number_format($subtotal, 2) }}</span>
                 </div>
 
                 <button type="submit" wire:loading.attr="disabled" wire:target="placeOrder"

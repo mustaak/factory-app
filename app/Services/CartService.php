@@ -39,8 +39,9 @@ class CartService
         $variant = ProductVariant::query()
             ->where('product_id', $product->id)
             ->whereKey($variantId)
-            ->where('is_active', true)
+            ->where('is_active', 1)
             ->first();
+        $productId = $product->id;
 
         if (! $variant || $variant->stock_quantity < 1) {
             throw ValidationException::withMessages([
