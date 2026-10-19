@@ -7,14 +7,10 @@ A modern, full-featured multi-vendor e-commerce platform built with **Laravel**,
 ## 🖼️ Application Screenshots
 
 ### Complete Application Flow
-![Project Screenshots Overview](docs/images/horizontal_combined_preview.png)
 
-<details>
-<summary><b>Click to view individual section highlights</b></summary>
-<br/>
 
 <p align="center">
-  <img src="docs/images/hme.jpeg" width="100%" alt="Storefront Home Page" />
+  <img src="docs/images/home.jpeg" width="100%" alt="Storefront Home Page" />
   <img src="docs/images/projectimage.jpeg" width="100%" alt="Storefront Home Page" />
   <img src="docs/images/product-details.jpeg" width="100%" alt="Product Details Page" />
 </p>
@@ -23,8 +19,6 @@ A modern, full-featured multi-vendor e-commerce platform built with **Laravel**,
   <img src="docs/images/cart.png" width="100%" alt="Shopping Cart Page" />
   <img src="docs/images/checkout.png" width="100%" alt="Checkout Page" />
 </p>
-
-</details>
 
 ---
 
