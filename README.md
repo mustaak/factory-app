@@ -173,10 +173,6 @@ Aapka application `http://127.0.0.1:8000` par Live ho jayega.
 
 ---
 
-## 📄 License
-
-This project is open-sourced software licensed under the [MIT license](LICENSE).
-
 <p align="center">
-  <b>Made with ❤️ using Laravel</b>
+  <b>Made with ❤️ Mustaak ): </b>
 </p>
